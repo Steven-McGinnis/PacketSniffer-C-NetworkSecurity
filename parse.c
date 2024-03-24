@@ -135,58 +135,47 @@ void print_payload(const u_char *payload, int len)
         }
     }
 
-    void got_packet(u_char * args, const struct pcap_pkthdr *header, const u_char *packet)
-    {
-        /* declare pointers to packet headers */
-        const struct sniff_ethernet *ethernet; /* The ethernet header */
-        const struct sniff_ip *ip;             /* The IP header */
-        const struct sniff_tcp *tcp;           /* The TCP header */
-        const char *payload;                   /* Packet payload */
+   
 
-        int size_ip;
-        int size_tcp;
-        int size_payload;
+void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *packet) {
+    const struct sniff_ethernet *ethernet; // The ethernet header
+    const struct sniff_ip *ip;             // The IP header
+    const struct sniff_tcp *tcp;           // The TCP header
+    const char *payload;                   // Packet payload
 
-        /* define ethernet header */
-        ethernet = (struct sniff_ethernet *)(packet);
+    int size_ip;
+    int size_tcp;
+    int size_payload;
 
-        /* define/compute ip header offset */
-        ip = (struct sniff_ip *)(packet + SIZE_ETHERNET);
-        size_ip = IP_HL(ip) * 4;
-        if (size_ip < 20)
-        {
-            printf("   * Invalid IP header length: %u bytes\n", size_ip);
-            return;
-        }
+    // Define ethernet header
+    ethernet = (struct sniff_ethernet*)(packet);
+    
+    // Define IP header
+    ip = (struct sniff_ip*)(packet + SIZE_ETHERNET);
+    size_ip = IP_HL(ip) * 4;
+    if (size_ip < 20) {
+        printf("   * Invalid IP header length: %u bytes\n", size_ip);
+        return;
+    }
 
-        /* determine protocol and handle accordingly */
-        if (ip->ip_p == IPPROTO_TCP)
-        {
-            tcp = (struct sniff_tcp *)(packet + SIZE_ETHERNET + size_ip);
-            size_tcp = TH_OFF(tcp) * 4;
-            if (size_tcp < 20)
-            {
-                printf("   * Invalid TCP header length: %u bytes\n", size_tcp);
-                return;
-            }
-            payload = (u_char *)(packet + SIZE_ETHERNET + size_ip + size_tcp);
-            size_payload = ntohs(ip->ip_len) - (size_ip + size_tcp);
+    // Define TCP header
+    tcp = (struct sniff_tcp*)(packet + SIZE_ETHERNET + size_ip);
+    size_tcp = TH_OFF(tcp) * 4;
+    if (size_tcp < 20) {
+        printf("   * Invalid TCP header length: %u bytes\n", size_tcp);
+        return;
+    }
 
-            parse_tcp(packet, ip, tcp); // Call your TCP parsing function
+    // Define payload
+    payload = (u_char *)(packet + SIZE_ETHERNET + size_ip + size_tcp);
+    size_payload = ntohs(ip->ip_len) - (size_ip + size_tcp);
+    
+    // Check if it's the right packet using conditions based on ethernet, ip and tcp fields
+    // This part will depend on what exactly you need to do with the packet
 
-            if (size_payload > 0)
-            {
-                print_payload(payload, size_payload); // Print payload
-            }
-        }
-        else if (ip->ip_p == IPPROTO_UDP)
-        {
-            parse_udp(packet, ip); // Call your UDP parsing function if implemented
-            // You would need similar calculations for size and payload printing for UDP if required
-        }
-        else
-        {
-            printf("   * Non TCP/UDP packet.\n");
-        }
+    // Example condition to check if the packet is TCP and port 80
+    if (ip->ip_p == IPPROTO_TCP && ntohs(tcp->th_dport) == 80) {
+        printf("TCP packet from port 80\n");
+        // Do something with the payload
     }
 }
