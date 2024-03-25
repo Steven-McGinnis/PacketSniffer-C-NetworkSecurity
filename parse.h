@@ -8,6 +8,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <pcap.h>
 
 /* default snap length (maximum bytes per packet to capture) */
 #define SNAP_LEN 1518
