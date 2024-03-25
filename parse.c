@@ -9,11 +9,17 @@
  */
 void parse_tcp(const u_char *packet, const struct sniff_ip *ip, const struct sniff_tcp *tcp)
 {
+    // Extract and print source and destination ports
     printf("Source Port: %d\n", ntohs(tcp->th_sport));
     printf("Destination Port: %d\n", ntohs(tcp->th_dport));
 
+    // Print sequence and acknowledgment numbers
     printf("Sequence Number: %u\n", ntohl(tcp->th_seq));
     printf("Acknowledgment Number: %u\n", ntohl(tcp->th_ack));
+
+    // Print Source IP and Destination IP
+    printf("Source IP: %s\n", inet_ntoa(ip->ip_src));
+    printf("Destination IP: %s\n", inet_ntoa(ip->ip_dst));
 
     // Print TCP flags if set
     printf("Flags: ");
