@@ -127,6 +127,32 @@ Payload (12 bytes):
 
 ---
 
+## Example Output
+
+### Port Scan Results:
+
+```plaintext
+Starting Port Scan
+Port 22 Successfully Identified
+Port 80 Successfully Identified
+Port 443 Successfully Identified
+Port 8080 Successfully Identified
+Successful ports:
+22
+80
+443
+8080
+
+
+```
+
+Successful IP addresses:
+192.168.0.1
+192.168.0.100
+192.168.0.200
+
+---
+
 ## Limitations
 
 - **Platform Dependency**: This tool is designed for Unix/Linux systems. For Windows, a compatible library like WinPcap or Npcap would be required.
@@ -152,3 +178,7 @@ This project was created as part of a **Network Security** class to gain hands-o
 ---
 
 Feel free to explore, fork, and modify the project to suit your needs. Contributions and suggestions for improvement are welcome. Happy sniffing! 🚀
+
+```
+
+```
