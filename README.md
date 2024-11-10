@@ -147,7 +147,7 @@ Payload (12 bytes):
 
 ## Acknowledgments
 
-This project was created as part of a **Network Security** class to gain hands-on experience in network traffic analysis and packet inspection. Special thanks to the instructor for their guidance and for inspiring this educational project.
+This project was created as part of a **Network Security** class to gain hands-on experience in network traffic analysis and packet inspection.
 
 ---
 
